@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<head>
+    <meta charset = "utf-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1">
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(async function(){
+            const response = await fetch('https://otog.cf/api/submission');
+            const data = await response.json();
+            data.forEach(submission => {
+                const row = $(` <tr class = 'not-pass'>
+                                    <th onmouseover = "timeScript(us)">${submission.id}</th>
+                                    <td><a href = "https://otog.cf/api/problem/doc/${submission.problem.id}" target = "_blank">${submission.problem.name}</a></td>
+                                    <td>${submission.result}</td><td>${submission.user.showName}</td>
+                                </tr>`)
+                if(submission.score === submission.problem.score){
+                    row.addClass("pass");
+                }
+                $("#sub").append(row);
+            });
+        })
+    </script>
+    <style>
+        .pass{
+            background-color: #b0ffa8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Submission</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Problem</th>
+                    <th>Result</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody id = "sub">
+
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
